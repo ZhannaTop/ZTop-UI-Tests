@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Properties>
+        <Property name="filename">current</Property>
+        <Property name="old_filename">previous</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{1} - %msg%n"/>
+        </Console>
+        <RollingFile name="RollingFile"
+                     filename="logs/${filename}.log"
+                     filePattern="logs/${old_filename}-%d{yyyyMMdd-HHmmss}.%i">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{1} - %m%n"/>
+            <OnStartupTriggeringPolicy />
+            <Policies>
+                <OnStartupTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="org.apache" level="ERROR" />
+        <Logger name="httpclient" level="ERROR" />
+        <Logger name="io.netty" level="ERROR" />
+        <Logger name="org.asynchttpclient" level="ERROR" />
+
+        <Logger name="org.openqa.selenium" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="DEBUG">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
